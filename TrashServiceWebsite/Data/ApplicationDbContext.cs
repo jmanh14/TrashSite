@@ -11,6 +11,7 @@ namespace TrashServiceWebsite.Data
     public class ApplicationDbContext : IdentityDbContext
     {
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Employee> Emplyees { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -41,5 +42,7 @@ namespace TrashServiceWebsite.Data
         }
 
         public DbSet<TrashServiceWebsite.Models.Customer> Customer { get; set; }
+
+        public DbSet<TrashServiceWebsite.Models.Employee> Employee { get; set; }
     }
 }
