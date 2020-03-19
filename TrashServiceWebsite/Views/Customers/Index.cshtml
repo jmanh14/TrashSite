@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<TrashServiceWebsite.Models.Customer>
 
 @{
-    Layout = null;
+    Layout = "_CustomerLayout";
 }
 
 <!DOCTYPE html>
@@ -22,7 +22,25 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Address)
+                @Html.DisplayNameFor(model => model.StreetAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ZipCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DayToPickUp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OneTimePickUp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartOfSuspension)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndOfSupspension)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Budget)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IdentityUser)
@@ -37,7 +55,25 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Address)
+                @Html.DisplayFor(modelItem => item.StreetAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ZipCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DayToPickUp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OneTimePickUp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartOfSuspension)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndOfSupspension)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Budget)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IdentityUser.Id)

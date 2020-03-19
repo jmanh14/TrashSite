@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +12,7 @@ using TrashServiceWebsite.Models;
 
 namespace TrashServiceWebsite.Controllers
 {
-    [Authorize(Roles="Customer")]
+    [Authorize(Roles = "Customer")]
     public class CustomersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -24,7 +25,9 @@ namespace TrashServiceWebsite.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Customer.Include(c => c.IdentityUser);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var myCustomerProfile = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            var applicationDbContext = _context.Customers.Include(c => c.IdentityUser);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -36,7 +39,7 @@ namespace TrashServiceWebsite.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customer
+            var customer = await _context.Customers
                 .Include(c => c.IdentityUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (customer == null)
@@ -59,7 +62,7 @@ namespace TrashServiceWebsite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Address,IdentityUserId")] Customer customer)
+        public async Task<IActionResult> Create([Bind("Id,Name,StreetAddress,ZipCode,DayToPickUp,OneTimePickUp,StartOfSuspension,EndOfSupspension,Budget,IdentityUserId")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +82,7 @@ namespace TrashServiceWebsite.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customer.FindAsync(id);
+            var customer = await _context.Customers.FindAsync(id);
             if (customer == null)
             {
                 return NotFound();
@@ -93,7 +96,7 @@ namespace TrashServiceWebsite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address,IdentityUserId")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StreetAddress,ZipCode,DayToPickUp,OneTimePickUp,StartOfSuspension,EndOfSupspension,Budget,IdentityUserId")] Customer customer)
         {
             if (id != customer.Id)
             {
@@ -132,7 +135,7 @@ namespace TrashServiceWebsite.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customer
+            var customer = await _context.Customers
                 .Include(c => c.IdentityUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (customer == null)
@@ -148,15 +151,15 @@ namespace TrashServiceWebsite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var customer = await _context.Customer.FindAsync(id);
-            _context.Customer.Remove(customer);
+            var customer = await _context.Customers.FindAsync(id);
+            _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CustomerExists(int id)
         {
-            return _context.Customer.Any(e => e.Id == id);
+            return _context.Customers.Any(e => e.Id == id);
         }
     }
 }

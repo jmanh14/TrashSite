@@ -1,46 +1,32 @@
-﻿@model IEnumerable<TrashServiceWebsite.Models.Employee>
+﻿@model TrashServiceWebsite.ViewModels.EmployeeViewModel
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_EmployeeLayoutTemplate.cshtml";
 }
 
-<!DOCTYPE html>
+@*<h1>Welcome @Model.Employee.Name</h1>
+<h1>Welcome @Html.Raw(Model.Employee.Name)!</h1>*@
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
+                @Html.DisplayNameFor(model => model.Customers[0].Name)
+            </th> 
             <th>
-                @Html.DisplayNameFor(model => model.ZipCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdentityUser)
+                @Html.DisplayNameFor(model => model.Customers[0].ZipCode)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Customers) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(model => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ZipCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdentityUser.Id)
+                @Html.DisplayFor(model => item.ZipCode)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -51,5 +37,3 @@
 }
     </tbody>
 </table>
-</body>
-</html>

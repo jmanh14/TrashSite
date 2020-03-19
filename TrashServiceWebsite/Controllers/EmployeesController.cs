@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TrashServiceWebsite.Data;
 using TrashServiceWebsite.Models;
+using TrashServiceWebsite.ViewModels;
 
 namespace TrashServiceWebsite.Controllers
 {
+    [Authorize(Roles = "Employee")]
     public class EmployeesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -22,8 +26,15 @@ namespace TrashServiceWebsite.Controllers
         // GET: Employees
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Employee.Include(e => e.IdentityUser);
-            return View(await applicationDbContext.ToListAsync());
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var myEmployeeProfile = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            var customersDb = _context.Customers.Include(e => e.IdentityUser).ToList();
+            EmployeeViewModel employeeViewModel = new EmployeeViewModel()
+            {
+                Customers = customersDb,
+                Employee = myEmployeeProfile
+            };
+            return View(employeeViewModel);
         }
 
         // GET: Employees/Details/5
@@ -34,7 +45,7 @@ namespace TrashServiceWebsite.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employee
+            var employee = await _context.Employees
                 .Include(e => e.IdentityUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (employee == null)
@@ -77,7 +88,7 @@ namespace TrashServiceWebsite.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employee.FindAsync(id);
+            var employee = await _context.Employees.FindAsync(id);
             if (employee == null)
             {
                 return NotFound();
@@ -130,7 +141,7 @@ namespace TrashServiceWebsite.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employee
+            var employee = await _context.Employees
                 .Include(e => e.IdentityUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (employee == null)
@@ -146,15 +157,15 @@ namespace TrashServiceWebsite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var employee = await _context.Employee.FindAsync(id);
-            _context.Employee.Remove(employee);
+            var employee = await _context.Employees.FindAsync(id);
+            _context.Employees.Remove(employee);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool EmployeeExists(int id)
         {
-            return _context.Employee.Any(e => e.Id == id);
+            return _context.Employees.Any(e => e.Id == id);
         }
     }
 }
