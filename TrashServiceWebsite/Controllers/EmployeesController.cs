@@ -29,12 +29,19 @@ namespace TrashServiceWebsite.Controllers
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var myEmployeeProfile = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
             var customersDb = _context.Customers.Include(e => e.IdentityUser).ToList();
-            EmployeeViewModel employeeViewModel = new EmployeeViewModel()
+            if (myEmployeeProfile == null)
             {
-                Customers = customersDb,
-                Employee = myEmployeeProfile
-            };
-            return View(employeeViewModel);
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                EmployeeViewModel employeeViewModel = new EmployeeViewModel()
+                {
+                    Customers = customersDb,
+                    Employee = myEmployeeProfile
+                };
+                return View(employeeViewModel);
+            }
         }
 
         // GET: Employees/Details/5

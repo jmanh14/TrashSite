@@ -28,12 +28,14 @@ namespace TrashServiceWebsite.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var myCustomerProfile = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
-            var customerDb = _context.Customers.Include(c => c.IdentityUser);
-            CustomerViewModel customerViewModel = new CustomerViewModel()
+            if(myCustomerProfile == null)
             {
-                Customer = myCustomerProfile
-            };
-            return View(customerViewModel);
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                return View(myCustomerProfile);
+            }
         }
 
         // GET: Customers/Details/5
