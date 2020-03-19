@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TrashServiceWebsite.Data;
 using TrashServiceWebsite.Models;
+using TrashServiceWebsite.ViewModels;
 
 namespace TrashServiceWebsite.Controllers
 {
@@ -27,8 +28,12 @@ namespace TrashServiceWebsite.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var myCustomerProfile = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
-            var applicationDbContext = _context.Customers.Include(c => c.IdentityUser);
-            return View(await applicationDbContext.ToListAsync());
+            var customerDb = _context.Customers.Include(c => c.IdentityUser);
+            CustomerViewModel customerViewModel = new CustomerViewModel()
+            {
+                Customer = myCustomerProfile
+            };
+            return View(customerViewModel);
         }
 
         // GET: Customers/Details/5
