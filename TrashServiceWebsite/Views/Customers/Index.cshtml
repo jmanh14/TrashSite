@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
 }
 
-<!DOCTYPE html>
+<!DOCTYPE html> 
 
 <html>
 <head>
@@ -28,15 +28,6 @@
                 @Html.DisplayNameFor(model => model.DayToPickUp)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OneTimePickUp)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartOfSuspension)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndOfSupspension)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Budget)
             </th>
             <th></th>
@@ -55,20 +46,11 @@
                 @Html.DisplayFor(modelItem => item.DayToPickUp)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.OneTimePickUp)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartOfSuspension)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndOfSupspension)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Budget)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>

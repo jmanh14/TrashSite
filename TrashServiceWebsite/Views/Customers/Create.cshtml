@@ -1,7 +1,7 @@
 ﻿@model TrashServiceWebsite.Models.Customer
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -13,55 +13,37 @@
 </head>
 <body>
 
-<h4>Customer</h4>
+<h4>Create Your Profile</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Name" class="control-label">First & Last Name</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StreetAddress" class="control-label"></label>
+                <label asp-for="StreetAddress" class="control-label">Street Address</label>
                 <input asp-for="StreetAddress" class="form-control" />
                 <span asp-validation-for="StreetAddress" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ZipCode" class="control-label"></label>
+                <label asp-for="ZipCode" class="control-label">Zip Code</label>
                 <input asp-for="ZipCode" class="form-control" />
                 <span asp-validation-for="ZipCode" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DayToPickUp" class="control-label"></label>
-                <select asp-for="DayToPickUp" class="form-control"></select>
+                <label asp-for="DayToPickUp" class="control-label">Day To Pick Up</label>
+                <select asp-for="DayToPickUp" class="form-control">
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                </select>
                 <span asp-validation-for="DayToPickUp" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OneTimePickUp" class="control-label"></label>
-                <select asp-for="OneTimePickUp" class="form-control"></select>
-                <span asp-validation-for="OneTimePickUp" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StartOfSuspension" class="control-label"></label>
-                <input asp-for="StartOfSuspension" class="form-control" />
-                <span asp-validation-for="StartOfSuspension" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EndOfSupspension" class="control-label"></label>
-                <input asp-for="EndOfSupspension" class="form-control" />
-                <span asp-validation-for="EndOfSupspension" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Budget" class="control-label"></label>
-                <input asp-for="Budget" class="form-control" />
-                <span asp-validation-for="Budget" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdentityUserId" class="control-label"></label>
-                <select asp-for="IdentityUserId" class ="form-control" asp-items="ViewBag.IdentityUserId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -71,7 +53,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to Home</a>
 </div>
 
 @section Scripts {
