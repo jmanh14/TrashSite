@@ -37,12 +37,24 @@
             </div>
             <div class="form-group">
                 <label asp-for="DayToPickUp" class="control-label">Day To Pick Up</label>
-                <select asp-for="DayToPickUp" class="form-control"></select>
+                <select asp-for="DayToPickUp" class="form-control">
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                </select>
                 <span asp-validation-for="DayToPickUp" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="OneTimePickUp" class="control-label">One Time Pick Up</label>
-                <select asp-for="OneTimePickUp" class="form-control"></select>
+                <select asp-for="OneTimePickUp" class="form-control">
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                </select>
                 <span asp-validation-for="OneTimePickUp" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -64,6 +76,7 @@
 
 <div>
     <a asp-action="Index">Back to Dashboard</a>
+    <a asp-action="Delete">Delete Profile</a>
 </div>
 
 @section Scripts {
