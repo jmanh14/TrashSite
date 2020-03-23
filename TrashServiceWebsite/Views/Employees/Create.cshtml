@@ -1,7 +1,7 @@
 ﻿@model TrashServiceWebsite.Models.Employee
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_EmployeeLayoutTemplate.cshtml";
 }
 
 <!DOCTYPE html>
@@ -25,13 +25,9 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ZipCode" class="control-label"></label>
+                <label asp-for="ZipCode" class="control-label">Zip Code</label>
                 <input asp-for="ZipCode" class="form-control" />
                 <span asp-validation-for="ZipCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdentityUserId" class="control-label"></label>
-                <select asp-for="IdentityUserId" class ="form-control" asp-items="ViewBag.IdentityUserId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -41,7 +37,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to Dashboard</a>
 </div>
 
 @section Scripts {
