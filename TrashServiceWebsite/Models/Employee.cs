@@ -14,6 +14,7 @@ namespace TrashServiceWebsite.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public int ZipCode { get; set; }
+        public DayOfWeek DayToPickUp { get; set; }
 
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }

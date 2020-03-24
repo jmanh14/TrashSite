@@ -5,6 +5,7 @@
 }
 
 <h1>Welcome @Model.Employee.Name</h1>
+@Html.DropDownList("DayToPickUp", new SelectList(Enum.GetValues(typeof(DayOfWeek))), "Select Day", new { @class = "form-control"})
 <table class="table">
     <thead>
         <tr>
@@ -18,20 +19,22 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Customers)
-{ 
+@for (int i = 0; i < Model.Customers.Count; i++)
+{
+    @if (Model.Employee.DayToPickUp == Model.Customers[i].DayToPickUp)
+    {
    <tr>
        <td>
-           @Html.DisplayFor(model => item.Name)
+           @Html.DisplayFor(model => Model.Customers[i].Name)
        </td>
        <td>
-           @Html.DisplayFor(model => item.ZipCode)
+           @Html.DisplayFor(model => Model.Customers[i].ZipCode)
        </td>
        <td> 
-            <a asp-action="ConfirmPickup" asp-route-id="@item.Id">Confirm Pickup</a>
+            <a asp-action="ConfirmPickup" asp-route-id="@Model.Customers[i].Id">Confirm Pickup</a>
         </td>
     </tr>
+    }
 }
-
     </tbody>
 </table>
