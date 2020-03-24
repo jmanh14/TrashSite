@@ -49,10 +49,16 @@
                         @Html.DisplayFor(model => Model.Customers[i].ZipCode)
                     </td>
                     <td>
-                        <a asp-action="ConfirmPickup" asp-route-id="@Model.Customers[i].Id">Confirm Pickup</a>
+                      <a asp-action="ConfirmPickup" asp-route-id="@Model.Customers[i].Id">Confirm Pickup</a>
                     </td>
                 </tr>
             }
         }
     </tbody>
 </table>
+<iframe width="600"
+        height="450"
+        frameborder="0" style="border:0"
+        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB8ugZc2QdtV1TI4lRlU6j5xWfVkgNQJ14"
+        allowfullscreen>
+</iframe>
