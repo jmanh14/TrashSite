@@ -27,7 +27,7 @@ namespace TrashServiceWebsite.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var myCustomerProfile = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            var myCustomerProfile = _context.Customers.Where(c => c.IdentityUserId == userId).FirstOrDefault();
             if(myCustomerProfile == null)
             {
                 return RedirectToAction("Create");
@@ -53,7 +53,7 @@ namespace TrashServiceWebsite.Controllers
         // GET: Customers/Create
         public IActionResult Create()
         {
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");  
             return View();
         }
 
@@ -66,6 +66,8 @@ namespace TrashServiceWebsite.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                customer.IdentityUserId = userId;
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -117,7 +119,7 @@ namespace TrashServiceWebsite.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
             return View(customer);

@@ -72,6 +72,8 @@ namespace TrashServiceWebsite.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                employee.IdentityUserId = userId;
                 _context.Add(employee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -160,8 +162,7 @@ namespace TrashServiceWebsite.Controllers
         {
             var customerToPickup = _context.Customers.Where(a => a.Id == id).FirstOrDefault();
             customerToPickup.Budget += 25;
-            //_context.Customers.Remove(customerToPickup);
-            //_context.SaveChanges();
+
             return RedirectToAction("Index");
 
         }

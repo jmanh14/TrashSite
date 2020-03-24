@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TrashServiceWebsite.Models.Customer>
+﻿@model TrashServiceWebsite.Models.Customer
 
 @{
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
@@ -31,22 +31,20 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.StreetAddress)
+                @Html.DisplayFor(modelItem => Model.StreetAddress)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ZipCode)
+                @Html.DisplayFor(modelItem => Model.ZipCode)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DayToPickUp)
+                @Html.DisplayFor(modelItem => Model.DayToPickUp)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Budget)
+                @Html.DisplayFor(modelItem => Model.Budget)
             </td>
         </tr>
-}
     </tbody>
 </table>
 </body>
