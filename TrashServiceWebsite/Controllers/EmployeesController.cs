@@ -45,22 +45,15 @@ namespace TrashServiceWebsite.Controllers
         }
 
         // GET: Employees/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details()
         {
-            if (id == null)
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var myEmployeeProfile = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            if (myEmployeeProfile == null)
             {
                 return NotFound();
             }
-
-            var employee = await _context.Employees
-                .Include(e => e.IdentityUser)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            return View(employee);
+            return View(myEmployeeProfile);
         }
 
         // GET: Employees/Create
@@ -88,20 +81,15 @@ namespace TrashServiceWebsite.Controllers
         }
 
         // GET: Employees/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit()
         {
-            if (id == null)
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var myEmployeeProfile = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            if (myEmployeeProfile == null)
             {
                 return NotFound();
             }
-
-            var employee = await _context.Employees.FindAsync(id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", employee.IdentityUserId);
-            return View(employee);
+            return View(myEmployeeProfile);
         }
 
         // POST: Employees/Edit/5
@@ -141,22 +129,15 @@ namespace TrashServiceWebsite.Controllers
         }
 
         // GET: Employees/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete()
         {
-            if (id == null)
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var myEmployeeProfile = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            if (myEmployeeProfile == null)
             {
                 return NotFound();
             }
-
-            var employee = await _context.Employees
-                .Include(e => e.IdentityUser)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            return View(employee);
+            return View(myEmployeeProfile);
         }
 
         // POST: Employees/Delete/5
@@ -173,6 +154,15 @@ namespace TrashServiceWebsite.Controllers
         private bool EmployeeExists(int id)
         {
             return _context.Employees.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> ConfirmPickup(int id)
+        {
+            var customerToPickup = _context.Customers.Where(a => a.Id == id).FirstOrDefault();
+            customerToPickup.Budget += 25;
+            var newCustomerList = _context.Customers.Remove(customerToPickup);
+            return RedirectToAction("Index");
+
         }
     }
 }
