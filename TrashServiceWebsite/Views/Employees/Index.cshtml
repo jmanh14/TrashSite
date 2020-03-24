@@ -5,13 +5,31 @@
 }
 
 <h1>Welcome @Model.Employee.Name</h1>
-@Html.DropDownList("DayToPickUp", new SelectList(Enum.GetValues(typeof(DayOfWeek))), "Select Day", new { @class = "form-control"})
+@*@Html.DropDownListFor(m => m.DayToPickUp, Model.DayToPickUp)*@
+<form asp-action="Index">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="SelectedDay" class="control-label">Day To Pick Up</label>
+        <select asp-for="SelectedDay" class="form-control">
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+        </select>
+        <span asp-validation-for="SelectedDay" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Filter" class="btn btn-primary" />
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Customers[0].Name)
-            </th> 
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Customers[0].ZipCode)
             </th>
@@ -19,22 +37,22 @@
         </tr>
     </thead>
     <tbody>
-@for (int i = 0; i < Model.Customers.Count; i++)
-{
-    @if (Model.Employee.DayToPickUp == Model.Customers[i].DayToPickUp)
-    {
-   <tr>
-       <td>
-           @Html.DisplayFor(model => Model.Customers[i].Name)
-       </td>
-       <td>
-           @Html.DisplayFor(model => Model.Customers[i].ZipCode)
-       </td>
-       <td> 
-            <a asp-action="ConfirmPickup" asp-route-id="@Model.Customers[i].Id">Confirm Pickup</a>
-        </td>
-    </tr>
-    }
-}
+        @for (int i = 0; i < Model.Customers.Count; i++)
+        {
+            @if ((Model.SelectedDay == (Model.Customers[i].DayToPickUp)) && (Model.Employee.ZipCode == Model.Customers[i].ZipCode))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => Model.Customers[i].Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => Model.Customers[i].ZipCode)
+                    </td>
+                    <td>
+                        <a asp-action="ConfirmPickup" asp-route-id="@Model.Customers[i].Id">Confirm Pickup</a>
+                    </td>
+                </tr>
+            }
+        }
     </tbody>
 </table>

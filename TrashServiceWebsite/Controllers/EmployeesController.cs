@@ -40,8 +40,27 @@ namespace TrashServiceWebsite.Controllers
                     Customers = customersDb,
                     Employee = myEmployeeProfile
                 };
+
+                employeeViewModel.DayToPickUp = new List<SelectListItem>();
+                employeeViewModel.DayToPickUp.Add(new SelectListItem() { Text = "Monday", Value = "1", Selected = false });
+                employeeViewModel.DayToPickUp.Add(new SelectListItem() { Text = "Tuesday", Value = "2", Selected = false });
+                employeeViewModel.DayToPickUp.Add(new SelectListItem() { Text = "Wednesday", Value = "3", Selected = false });
+                employeeViewModel.DayToPickUp.Add(new SelectListItem() { Text = "Thursday", Value = "4", Selected = false });
+                employeeViewModel.DayToPickUp.Add(new SelectListItem() { Text = "Friday", Value = "5", Selected = false });
+                
                 return View(employeeViewModel);
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(EmployeeViewModel employeeViewModel)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var myEmployeeProfile = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            var customersDb = _context.Customers.Where(a => a.DayToPickUp == employeeViewModel.SelectedDay).ToList();
+            employeeViewModel.Employee = myEmployeeProfile;
+            employeeViewModel.Customers = customersDb;
+            return View(employeeViewModel);
         }
 
         // GET: Employees/Details/5
