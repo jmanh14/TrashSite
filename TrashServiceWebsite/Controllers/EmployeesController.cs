@@ -162,7 +162,7 @@ namespace TrashServiceWebsite.Controllers
         {
             var customerToPickup = _context.Customers.Where(a => a.Id == id).FirstOrDefault();
             customerToPickup.Budget += 25;
-
+            _context.SaveChanges();
             return RedirectToAction("Index");
 
         }
