@@ -27,7 +27,7 @@ namespace TrashServiceWebsite.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var myCustomerProfile = _context.Customers.Where(c => c.IdentityUserId == userId);
+            var myCustomerProfile = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
             if(myCustomerProfile == null)
             {
                 return RedirectToAction("Create");
